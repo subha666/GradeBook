@@ -7,7 +7,9 @@ namespace GradeBook
     {
         static void Main(string[] args)
         {
-            var book1 = new DiskBook("Somsubhra");
+            Console.WriteLine("Please Enter Name:");
+            var input = Console.ReadLine();
+            var book1 = new DiskBook(input);
             book1.GradeAdded += OnGradeAdded;
             // book1.AddGrade(89.1);
             // book1.AddGrade(90.5);
@@ -17,25 +19,32 @@ namespace GradeBook
 
             EnterGrades(book1);
             var result = book1.GetStatistics();
-
+            
             Console.WriteLine($"This is {book1.Name}'s gradebook");
             Console.WriteLine($"The lowest grade is {result.Low}");
             Console.WriteLine($"The highest grade is {result.High}");
             Console.WriteLine($"The average grade is {result.Average:N1}");
             Console.WriteLine($"The letter grade is {result.Letter}");
+            Console.ReadLine();
         }
 
         private static void EnterGrades(IBook book)
         {
-            Console.WriteLine("Enter No of grades you want top input:");
-            int noOfInput = Int32.Parse(Console.ReadLine());
-            for (var i = 0; i < noOfInput; i++)
+            bool result = false;
+            while (result == false)
             {
-                var grade = double.Parse(Console.ReadLine());
-                book.AddGrade(grade);
+                Console.WriteLine("Enter grades/Press 'C' to Compute result:");
+                var input = Console.ReadLine();
+                if(input.ToUpper()=="C")
+                {
+                    result = true;
+                }
+                else
+                {
+                    var number = double.Parse(input);
+                    book.AddGrade(number);
+                }
             }
-            Console.WriteLine("Want to compute Result?");
-            Console.WriteLine("Y/N");
         }
 
         static void OnGradeAdded(object sender, EventArgs args)
